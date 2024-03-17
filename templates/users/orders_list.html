@@ -1,0 +1,57 @@
+    <div class="table-responsive">
+      <table class="table table-vcenter">
+        <thead>
+          <tr>
+            <th>Sr No</th>
+            <th>Title</th>
+            <th>Lab Name</th>
+            <th>Test Price</th>
+            <th class="w-1">Current Status/Actions</th>
+          </tr>
+        </thead>
+        
+        {% for order in  orders  %}
+        <tbody>
+          <tr>
+            <td colspan="4" class="text-dark">
+              <h5 class="mb-0">Order Id: {{order.id}}</h5>
+              <span class="text-secondary" >{{order.paid}}</span>
+            </td>
+            <td class="text-right">
+
+              <img src="https://api.qrserver.com/v1/create-qr-code/?data={{request.build_absolute_uri}}&amp;size=100x100&amp;format=png" alt="QR Code">
+
+            </td>
+       
+              </div>
+            {% if order.items.count > 0 %}
+            {% for item in order.items.all %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td class="text-dark">
+              {{item.name}} 
+            </td>
+            <td class="text-secondary"> {{item.user.get_full_name}} </td>
+            <td class="text-secondary">
+              ₹ {{item.price}} 
+            </td>
+            <td>
+            {{item.}}
+            {% if order.is_completed %}
+            <span class="badge bg-green">Completed</span>
+            <BR>
+              <a href="{{order.attachment.url}}"  download target="_blank" class="text-link">Download Attactment</a>
+            {% else %}
+            <span class="badge bg-yellow">Pending</span>
+
+            {% endif %}
+
+
+            </td>
+          </tr>
+        </tbody>
+          {% endfor %}
+        {% endif %}
+        {% endfor %}
+      </table>
+    </div>

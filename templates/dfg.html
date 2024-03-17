@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Autofill events</title>
+    <!-- Default styling. Feel free to remove! -->
+    <link href="https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.min.css" rel="stylesheet">
+    <script id="search-js" defer="" src="https://api.mapbox.com/search-js/v1.0.0-beta.18/web.js"></script>
+  </head>
+  <body>
+    <form class="prose card card-md signup" id="signup_form" method="post">
+      <div class="card-body">
+        <h2 class="h2 card-title text-center mb-4">Create new account as <b>User<b></b></b></h2>
+        <b>
+          <b>
+            <input type="hidden" name="csrfmiddlewaretoken" value="fDXcBnYGWavoQxbndaFZDHnM0gTlpxSmowpioKuSlzVIa6C9jE6L74w9VuD9fAjN">
+            <div class="row g-3">
+            
+                <div class="col-sm-6">
+                  <div id="div_id_first_name" class="form-group">
+                    <label for="id_first_name" class=" requiredField">
+                    First name<span class="asteriskField">*</span>
+                    </label>
+                    <div>
+                      <div aria-live="polite" aria-atomic="true" role="status" style="border: 0px;clip: rect(0px, 0px, 0px, 0px);height: 1px;margin-bottom: -1px;margin-right: -1px;overflow: hidden;padding: 0px;position: absolute;white-space: nowrap;width: 1px;">
+                        <div id="mbx01f73412--search-listbox__description"></div>
+                      </div>
+                      <input type="text" name="first_name address-search" maxlength="150" class="textinput textInput form-control" required="" id="id_first_name" role="combobox" aria-autocomplete="list" aria-controls="mbx01f73412-ResultsList" data-lpignore="true">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div id="div_id_last_name" class="form-group">
+                    <label for="id_last_name" class=" requiredField">
+                    Last name<span class="asteriskField">*</span>
+                    </label>
+                    <div>
+                      <input type="text" name="last_name" maxlength="150" class="textinput textInput form-control" required="" id="id_last_name">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div id="div_id_username" class="form-group">
+                    <label for="id_username" class=" requiredField">
+                    Phone Number<span class="asteriskField">*</span>
+                    </label>
+                    <div>
+                      <input type="text" name="username" maxlength="10" class="textinput textInput form-control" required="" id="id_username">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <mapbox-address-autofill>
+                  <div id="div_id_address" class="form-group">
+                    <label for="id_address" class=" requiredField">
+                    Address<span class="asteriskField">*</span>
+                    </label>
+                    <div>
+                      <input type="text" name="address" autocomplete="shipping address-line1" placeholder="Address" class="textinput textInput form-control" required="" id="id_address">
+                    </div>
+                  </div>
+                           </mapbox-address-autofill>
+                </div>
+                <div class="col-sm-12">
+                  <div id="div_id_email" class="form-group">
+                    <label for="id_email" class="">
+                    Email address
+                    </label>
+                    <div>
+                      <input type="email" name="email" maxlength="254" class="emailinput form-control" id="id_email">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div id="div_id_password" class="form-group">
+                    <label for="id_password" class=" requiredField">
+                    Password<span class="asteriskField">*</span>
+                    </label>
+                    <div>
+                      <input type="text" name="password" maxlength="128" class="textinput textInput form-control" required="" id="id_password">
+                    </div>
+                  </div>
+                </div>
+     
+              <div class="form-footer">
+                <button type="submit" class="btn btn-primary w-100">Create new account</button>
+              </div>
+            </div>
+          </b>
+        </b>
+      </div>
+    </form>
+    <script>
+      const ACCESS_TOKEN = 'pk.eyJ1IjoiYWRtaW5lcmVmaCIsImEiOiJjbHNxMHA3Nzgwd2d2Mmtuem9vZXplcGNnIn0.UszWUOoih3vGKZeZlnn35g';
+      
+      const script = document.getElementById('search-js');
+      script.onload = () => {
+          const autofill = document.querySelector('mapbox-address-autofill');
+      
+          autofill.accessToken = ACCESS_TOKEN;
+          
+          autofill.addEventListener('retrieve', (event) => {
+              const featureCollection = event.detail;
+              if (!featureCollection || !featureCollection.features.length) {
+                  return;
+              }
+      
+              const feature = featureCollection.features[0];
+          });
+      };
+    </script>
+  </body>
+</html>

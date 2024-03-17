@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+<div class="page page-center">
+<div class="container container-xl ">
+<form class="card card-md signup" method="post" enctype="multipart/form-data">
+    <div class="card-body">
+      <h2 class="h2 card-title text-center mb-4">Update Test <b> {{test.name}}</b></h2>
+      {% csrf_token %}
+      <div class="row">
+        {% for field in form %}
+        <div class="col-sm-6">
+          {{ field|as_crispy_field }}
+        </div>
+        {% endfor %}
+        <center>
+          <div class="form-footer">
+            <button type="submit" class="btn btn-primary w-50">
+            Create Test</button>
+          </div>
+      </div>
+      </center>
+  </form>
+  </div>
+</div>
+{% endblock page_content %}

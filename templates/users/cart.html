@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+<div class="page page-center">
+  <div class="container container-xl ">
+    {% if order.items.count > 0 %}
+<div class="table-responsive">
+  <table class="table table-vcenter">
+    <thead>
+      <tr>
+        <th>Sr No</th>
+        <th>Title</th>
+        <th>Lab Name</th>
+        
+        <th>Test Price</th>
+        <th class="w-1"></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for item in order.items.all %}
+
+
+
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td class="text-dark">
+         {{item.name}} 
+       </td>
+        <td class="text-secondary"> {{item.user.get_full_name}} </td>
+        <td class="text-secondary">
+           ₹ {{item.price}} 
+        </td>
+        <td>
+          <a href="{% url 'core:remove_from_cart' item.id  %}" class="text-red">Delete</a>
+        </td>
+      </tr>
+        {% endfor %}
+    <tr>
+      <td colspan="3" class="text-right fw-bold">Total :</td>
+      <td class="text-secondary">₹ {{order.get_total_price}}</td>
+      <td></td>
+ </tr>
+    </tbody>
+  </table>
+  
+</div>
+<div class="btn-list justify-content-end mt-4">
+  <a href="{% url 'core:list_labs' %}" class="btn">Buy More </a>
+  <a href="#" id="pay-btn"  class="btn btn-success">Pay Now</a>
+</div>
+
+{% else %}
+
+
+
+
+ <div class="card">
+  <div class="card-body">
+    <p>Please Add Products from 
+    <a href="{% url 'core:list_labs' %}">Here</a>
+    </p>
+  </div>
+</div>
+{% endif %}
+
+
+  </div>
+</div>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    var options = {
+       
+      // Enter the Key ID generated from the Dashboard
+      key: "{{ razorpay_merchant_key }}", 
+       
+      // Amount is in currency subunits.
+      // Default currency is INR. Hence, 
+      // 50000 refers to 50000 paise
+      amount: "{{ razorpay_amount }}", 
+      currency: "{{ currency }}",
+       
+      // Your/store name.
+      name: "Testto", 
+       
+      // Pass the `id` obtained in the response of Step 1
+      order_id: "{{ razorpay_order_id }}", 
+      callback_url: window.location.origin + "/paymenthandler/",
+    };
+     
+    // initialise razorpay with the options.
+    var rzp1 = new Razorpay(options);
+     
+    // add event listener to the payment button.
+    document.getElementById("pay-btn").onclick = function (e) {
+      rzp1.open();
+      e.preventDefault();
+    };
+  </script>
+{% endblock page_content %}

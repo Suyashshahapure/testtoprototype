@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+<div class="page page-center">
+  <div class="container container-xl ">
+    <h1><strong>Find Labs</strong></h1>
+    <div class="mb-3">
+      <label class="form-label">Filters  <a href="{% url 'core:list_labs' %}" class="btn btn-primary float-end text-link fw-bold">Reset Filters</a></label>
+      <hr/>
+      <div class="row g-2">
+        <div class="col-6">
+          <input type="text" class="form-control"  value="{{search_query}}" placeholder="Search for Labs" id="searchLabs"  />
+        </div>
+        <div class="col-auto">
+          <a href="#" class="btn btn-icon btn-teal" aria-label="Button" type="submit" id="searchLabsBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <circle cx="10" cy="10" r="7" />
+              <line x1="21" y1="21" x2="15" y2="15" />
+            </svg>
+          </a>
+        </div>
+        <div class="col-4 float-right" style="float:right">
+          <input type="text" class="form-control" placeholder="Search For location" value="{{address_query}}" id="searchAddress" />
+        </div>
+        <div class="col-auto">
+          <a href="#" class="btn btn-icon btn-green" aria-label="Button" id="searchAddressBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <circle cx="10" cy="10" r="7" />
+              <line x1="21" y1="21" x2="15" y2="15" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% if search_query %}
+    Search Results for <strong>{{search_query}}</strong>
+    {% else %}
+    Results
+    {% endif %}
+    {% for lab_user in  list_of_labs  %}
+    <div class="card mt-2">
+      <div class="card d-flex flex-column">
+        <div class="row row-0 flex-fill">
+          <div class="col">
+            <div class="card-body">
+              <h3 class="card-title">{{lab_user.get_full_name}}</h3>
+              <div class="text-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-location-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M20.891 2.006l.106 -.006l.13 .008l.09 .016l.123 .035l.107 .046l.1 .057l.09 .067l.082 .075l.052 .059l.082 .116l.052 .096c.047 .1 .077 .206 .09 .316l.005 .106c0 .075 -.008 .149 -.024 .22l-.035 .123l-6.532 18.077a1.55 1.55 0 0 1 -1.409 .903a1.547 1.547 0 0 1 -1.329 -.747l-.065 -.127l-3.352 -6.702l-6.67 -3.336a1.55 1.55 0 0 1 -.898 -1.259l-.006 -.149c0 -.56 .301 -1.072 .841 -1.37l.14 -.07l18.017 -6.506l.106 -.03l.108 -.018z" stroke-width="0" fill="currentColor" />
+                </svg>
+                {{lab_user.address.address}}
+                <br>
+                {{lab_user.address.full_address}}
+              </div>
+              <div class="d-flex align-items-center pt-4 mt-auto">
+                <img src="{{lab_user.get_user_profile_link}}" alt="Image" class="rounded" width="40" height="40">
+                <div class="ms-3">
+                  <div class="text-body">Pincode : {{lab_user.pincode}}</div>
+                  <div class="text-secondary">{{lab_user.date_joined}}</div>
+                </div>
+                <div class="ms-auto">
+                  <a href="{% url 'core:tests' lab_user_id=lab_user.id %}" class="btn btn-blue">See Lab Tests</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script>
+  let searchLabs=document.getElementById('searchLabs');
+  let searchLabsBtn=document.getElementById('searchLabsBtn');
+  let searchAddress = document.getElementById('searchAddress');
+  let searchAddressBtn = document.getElementById('searchAddressBtn');
+  searchLabsBtn.addEventListener('click',function(){
+    let searchLabsValue=searchLabs.value;
+    window.location.href="{% url 'core:list_labs' %}?search="+searchLabsValue+"&address="+searchAddress.value;
+  })
+  searchAddressBtn.addEventListener('click',function(){
+    let searchAddressValue=searchAddress.value;
+    window.location.href="{% url 'core:list_labs' %}?address="+searchAddressValue+"&search="+searchLabs.value;
+  })
+</script>
+{% endblock page_content %}

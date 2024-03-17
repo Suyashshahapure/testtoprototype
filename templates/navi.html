@@ -1,0 +1,100 @@
+{% load static %}
+<div class="mb-3">
+  <header class="navbar navbar-expand-md navbar-transparent d-print-none">
+    <div class="container-xl">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+        <a href="/" class="link">
+        <img src="{% static "img/Logo.png" %}" alt="IYS" class="navbar-brand-image">    Testto
+        </a>
+      </h1>
+      <div class="navbar-nav flex-row order-md-last">
+              {% if user.is_authenticated %}
+            {% if user.is_lab_user %}
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+            <span class="avatar avatar-sm" style="background-image: url({{user.get_user_profile_link}})"></span>
+            <div class="d-none d-xl-block ps-2">
+              <div>{{user.get_full_name}}</div>
+              <div class="mt-1 small text-secondary">Lab </div>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+            <a href="{% url 'account_logout' %}" class="dropdown-item text-red">Logout</a>
+          </div>
+        </div>
+        {% elif not user.is_lab_user %}
+
+                <div class="nav-item dropdown">
+          <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+            <span class="avatar avatar-sm" style="background-image: url({{user.get_user_profile_link}})"></span>
+            <div class="d-none d-xl-block ps-2">
+              <div>{{user.get_full_name}}</div>
+              <div class="mt-1 small text-secondary">User </div>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+            <a href="{% url 'account_logout' %}" class="dropdown-item text-red">Logout</a>
+          </div>
+        </div>
+         {% endif %}
+            {% endif %}
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-menu">
+        <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            {% if user.is_lab_user %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'labs:create_test' %}">
+              <span class="nav-link-title">
+              Create Test 
+              </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'labs:my_tests' %}">
+              <span class="nav-link-title">
+              My Tests
+              </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'labs:lab_orders' %}">
+              <span class="nav-link-title">
+              My Orders
+              </span>
+              </a>
+            </li>
+            {% elif not user.is_lab_user %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'core:list_labs' %}">
+              <span class="nav-link-title">
+              Nearby Labs
+              </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'core:user_cart' %}">
+              <span class="nav-link-title">
+             Cart
+              </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'core:user_orders' %}">
+              <span class="nav-link-title">
+             My Orders
+              </span>
+              </a>
+            </li>
+            {% endif %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>

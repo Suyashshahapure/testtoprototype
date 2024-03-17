@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NoUiSlider Example</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
+</head>
+<body>
+<style>
+  
+div.noUi-base > div.noUi-origin > div{
+  box-shadow: none;
+    border: #3b71ca;
+    background: #3b71ca;
+    color: #3b71ca;
+  
+  }
+</style>
+
+  <div id="slider"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var slider = document.getElementById('slider');
+
+      noUiSlider.create(slider, {
+        start: [20, 80],
+        connect: true,
+        range: {
+          'min': 0,
+          'max': 100
+        }
+      });
+
+      slider.noUiSlider.on('update', function (values, handle) {
+        console.log(values[handle]);
+      });
+    });
+  </script>
+</body>
+</html>

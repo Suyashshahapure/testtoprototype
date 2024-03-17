@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+
+
+
+<div class="page page-center">
+  <div class="container container-xl ">
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+      <li class="nav-item">
+        <a href="#tabs-home-ex1" class="nav-link active" data-bs-toggle="tab">
+          <span class="badge bg-warning me-1"></span>
+        Pending Orders</a>
+      </li>
+      <li class="nav-item">
+        <a href="#tabs-profile-ex1" class="nav-link" data-bs-toggle="tab">
+         <span class="badge bg-success me-1"></span>
+        Completed Orders</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <div class="tab-content">
+      <div class="tab-pane active show" id="tabs-home-ex1">
+        <h4>Pending Orders</h4>
+        <div> {% include "labs/orders_list.html" with orders=orders %}</div>
+      </div>
+      <div class="tab-pane" id="tabs-profile-ex1">
+        <h4>Completed Orders</h4>
+        <div> {% include "labs/orders_list.html" with orders=completed_orders %}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  
+ 
+  </div>
+</div>
+{% endblock page_content %}
